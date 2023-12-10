@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "commonjs",
+    "allowJs": true,
+    "checkJs": true,
+    "emitDeclarationOnly": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "alwaysStrict": true,
+    "skipLibCheck": true,
+    "declaration": true,
+  },
+  "include": [
+    "index.js"
+  ],
+  "exclude": [
+    "node_modules/**/*",
+    "index.d.ts",
+    "index.cjs.js",
+  ]
+}
