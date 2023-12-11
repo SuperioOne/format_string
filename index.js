@@ -29,8 +29,7 @@ function is_white_space(charCode) {
  * @return {string} The formatted text with replaced placeholders.
  */
 function formatter(text, argLookup) {
-  // Concatenation yields faster resultts than string array and string.join("") for this context, possibly because of average format input isn't that big. 
-  // Difference is extremly small (~0.0002ms) but consistent. (Runtime: Node v20.7.0). 
+  // Concatenation yields faster results than string array and string.join("") for this context, possibly because of average format input isn't that big. 
   let result = "";
   let templateIndex = -1;
   let sliceStart = 0;
