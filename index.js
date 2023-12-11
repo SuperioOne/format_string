@@ -43,36 +43,30 @@ function formatter(text, argLookup) {
 
     } else if (templateIndex > -1) {
       if (charCode === CURLY_BRACE_CLOSE) {
-        {
-          if (templateIndex + 1 === i) {
-            templateIndex = -1;
-            continue;
-          }
-
-          if (sliceStart < templateIndex) {
-            result += text.slice(sliceStart, templateIndex);
-          }
-
-          const canEscape = escapeFlag && text[i + 1] === "}"
-          const key = text.slice(templateIndex + 1, i);
-          result += canEscape
-            ? key
-            : argLookup[key]?.toString() ?? "";
-
-          escapeFlag = false;
+        if (templateIndex + 1 === i) {
           templateIndex = -1;
-          sliceStart = i + 1;
+          continue;
         }
+
+        if (sliceStart < templateIndex) {
+          result += text.slice(sliceStart, templateIndex);
+        }
+
+        const canEscape = escapeFlag && text[i + 1] === "}";
+        const key = text.slice(templateIndex + 1, i);
+        result += canEscape
+          ? key
+          : argLookup[key]?.toString() ?? "";
+
+        escapeFlag = false;
+        templateIndex = -1;
+        sliceStart = i + 1;
       } else if (charCode === CURLY_BRACE_OPEN) {
-        {
-          templateIndex = i;
-          escapeFlag = true;
-        }
+        templateIndex = i;
+        escapeFlag = true;
       } else if (charCode !== undefined && is_white_space(charCode)) {
-        {
-          templateIndex = -1;
-          escapeFlag = false;
-        }
+        templateIndex = -1;
+        escapeFlag = false;
       }
     }
   }
