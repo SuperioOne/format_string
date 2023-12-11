@@ -1,4 +1,4 @@
-node_modules/**/*
-index.cjs.js
-.idea
-.vscode
+node_modules/
+index.require.js
+.idea/
+.vscode/

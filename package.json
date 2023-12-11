@@ -5,13 +5,14 @@
   "scripts": {
     "check": "tsc --noEmit",
     "test": "vitest",
-    "build": "tsc && rollup index.js --file index.cjs.js --format cjs"
+    "pack": "",
+    "build": "tsc --emitDeclarationOnly && rollup index.js --file index.require.js --format cjs"
   },
   "exports": {
     ".": {
       "default": "./index.js",
       "import": "./index.js",
-      "require": "./index.cjs.js",
+      "require": "./index.require.js",
       "types": "./index.d.ts"
     }
   },

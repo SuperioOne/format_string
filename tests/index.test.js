@@ -26,6 +26,11 @@ test('should handle empty string format properly', () => {
   expect(result).toBe('');
 });
 
+test('should handle whitespace string format properly', () => {
+  const result = format_string('         ', ['John', 25]);
+  expect(result).toBe('         ');
+});
+
 test('should process array parameters at the beginning and end properly', () => {
   const result = format_string('{0} is {1} years old today', ['John', 25]);
   expect(result).toBe('John is 25 years old today');
@@ -42,9 +47,9 @@ test('should process object parameters at the beginning and end properly', () =>
   expect(result2).toBe('He is 25 years old, his name is John');
 });
 
-test('should handle double braces properly', () => {
+test('should escape double braces properly', () => {
   let result = format_string('{name} is {{age}} years old today', {name: 'John', age: 25});
-  expect(result).toBe('John is {25} years old today');
+  expect(result).toBe('John is {age} years old today');
 });
 
 test('should handle empty replacement key properly', () => {
@@ -77,13 +82,38 @@ test('should handle keys with extra spaces properly - case 3', () => {
   expect(result).toBe('John is {age } years old today');
 });
 
+test('should handle keys with extra spaces properly - case 4', () => {
+  let result = format_string('{name} is {age\u2004} years old today', {name: 'John', age: 25});
+  expect(result).toBe('John is {age\u2004} years old today');
+});
+
+test('should handle keys with extra spaces properly - case 5', () => {
+  let result = format_string('{name} is {\tage} years old today', {name: 'John', age: 25});
+  expect(result).toBe('John is {\tage} years old today');
+});
+
+test('should handle line feed properly', () => {
+  let result = format_string('Hello,\n{name}', {name: 'John'});
+  expect(result).toBe('Hello,\nJohn');
+});
+
+test('should handle Unicode white space properly', () => {
+  let result = format_string('Hello,\u2004{name}', {name: 'John'});
+  expect(result).toBe('Hello,\u2004John');
+});
+
 test('format level: gibberish', () => {
-  let result = format_string('{name}{{ { {{{ a{{name}{{😕}} d}}}}} } {{{age}{{a}}\{\}{\u4356}', {
+ 
+  let result = format_string('{name}{{ name}} { {{{ a{{name}{😕} d}}}}} } {{{{age}}}} {age age} {{{age}{{a}}\{\}{\u4356}', {
     "name": 'Gonarch',
     age: 25,
-    "{a}": "injection",
+    "{a}": "!!INJECTION_CASE_0!!",
+    "{": "!!INJECTION_CASE_1!!",
+    "}": "!!INJECTION_CASE_2!!",
+    "}}": "!!INJECTION_CASE_3!!",
+    "{{": "!!INJECTION_CASE_4!!",
     "\u4356": "???",
     "😕": "{a}"
   });
-  expect(result).toBe('Gonarch{{ { {{{ a{Gonarch{{a}} d}}}}} } {{25{}{}???');
+  expect(result).toBe('Gonarch{{ name}} { {{{ a{Gonarch{a} d}}}}} } {{{age}}} {age age} {{25{a}{}???');
 });
