@@ -5,7 +5,6 @@
   "scripts": {
     "check": "tsc --noEmit",
     "test": "vitest",
-    "pack": "",
     "build": "tsc --emitDeclarationOnly && rollup index.js --file index.require.js --format cjs"
   },
   "exports": {
@@ -23,7 +22,11 @@
     "name": "Timur Olur"
   },
   "license": "MIT",
-  "repository": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SuperioOne/format_string"
+  },
+  "homepage": "https://github.com/SuperioOne/pnp-react-hooks",
   "devDependencies": {
     "rollup": "^4.7.0",
     "typescript": "^5.3.3",
