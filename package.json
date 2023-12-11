@@ -1,10 +1,11 @@
 {
-  "name": "format_string",
+  "name": "@superior-one/format_string",
   "version": "1.0.0",
   "description": "Replaces placeholders in a format string with provided named or positional arguments.",
   "scripts": {
     "check": "tsc --noEmit",
     "test": "vitest",
+    "bench": "vitest bench",
     "build": "tsc --emitDeclarationOnly && rollup index.js --file index.require.js --format cjs"
   },
   "exports": {

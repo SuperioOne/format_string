@@ -12,12 +12,12 @@ for dynamic values.
 
 1. Add the library into your project.
    ```shell 
-   npm install format_string
+   npm install @superior-one/format_string
     ```
 2. Import `default` function and start using.
     * Named parameters:
        ```javascript
-       import format_string from "format_string";
+       import format_string from "@superior-one/format_string";
     
        const format_tag = "({userTag}){name}, [{hash}]";
        const format_email = "<{email}>{name}, {hash}";
@@ -36,7 +36,7 @@ for dynamic values.
        ```
     * Positional parameters:
        ```javascript
-       import format_string from "format_string";
+       import format_string from "@superior-one/format_string";
     
        const format = "{2} {1} {0} {0} {2}\n{2} {0} {1} {0} {2}\n{2} {0} {0} {1} {2}\n";
        const text = format_string(format, ["a", 5, "|"]);
