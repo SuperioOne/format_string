@@ -1,42 +1,4 @@
 /**
- * based on '\s' regexp https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Cheatsheet
- * @param {string} char
- * @return {boolean}
- */
-function is_white_space(char) {
-  switch (char) {
-    case "\u0020":
-    case "\u0009":
-    case "\u000a":
-    case "\u000b":
-    case "\u000c":
-    case "\u000d":
-    case "\u00a0":
-    case "\u1680":
-    case "\u2000":
-    case "\u2001":
-    case "\u2002":
-    case "\u2003":
-    case "\u2004":
-    case "\u2005":
-    case "\u2006":
-    case "\u2007":
-    case "\u2008":
-    case "\u2009":
-    case "\u200a":
-    case "\u2028":
-    case "\u2029":
-    case "\u202f":
-    case "\u205f":
-    case "\u3000":
-    case "\ufeff":
-      return true;
-    default:
-      return false;
-  }
-}
-
-/**
  * Replaces placeholders in the given text with values from a lookup map.
  *
  * @param {string} text - The text to format.
@@ -51,35 +13,69 @@ function formatter(text, argLookup) {
   let escapeFlag = false;
 
   for (let i = 0; i < text.length; i++) {
-    let charCode = text[i];
+    const charCode = text[i];
 
     if (templateIndex < 0 && charCode === "{") {
       templateIndex = i;
 
     } else if (templateIndex > -1) {
-      if (charCode === "}") {
-        if (templateIndex + 1 === i) {
+
+      switch (charCode) {
+        case "}": {
+          if (templateIndex + 1 === i) {
+            templateIndex = -1;
+            continue;
+          }
+
+          if (sliceStart < templateIndex) {
+            result += text.slice(sliceStart, templateIndex);
+          }
+
+          const canEscape = escapeFlag && text[i + 1] === "}";
+          const key = text.slice(templateIndex + 1, i);
+          result += canEscape ? key : argLookup[key]?.toString() ?? "";
+
+          escapeFlag = false;
           templateIndex = -1;
-          continue;
+          sliceStart = i + 1;
+          break;
         }
-
-        if (sliceStart < templateIndex) {
-          result += text.slice(sliceStart, templateIndex);
+        case "{": {
+          templateIndex = i;
+          escapeFlag = true;
+          break;
         }
-
-        const canEscape = escapeFlag && text[i + 1] === "}";
-        const key = text.slice(templateIndex + 1, i);
-        result += canEscape ? key : argLookup[key]?.toString() ?? "";
-
-        escapeFlag = false;
-        templateIndex = -1;
-        sliceStart = i + 1;
-      } else if (charCode === "{") {
-        templateIndex = i;
-        escapeFlag = true;
-      } else if (charCode !== undefined && is_white_space(charCode)) {
-        templateIndex = -1;
-        escapeFlag = false;
+        case "\u0020":
+        case "\u0009":
+        case "\u000a":
+        case "\u000b":
+        case "\u000c":
+        case "\u000d":
+        case "\u00a0":
+        case "\u1680":
+        case "\u2000":
+        case "\u2001":
+        case "\u2002":
+        case "\u2003":
+        case "\u2004":
+        case "\u2005":
+        case "\u2006":
+        case "\u2007":
+        case "\u2008":
+        case "\u2009":
+        case "\u200a":
+        case "\u2028":
+        case "\u2029":
+        case "\u202f":
+        case "\u205f":
+        case "\u3000":
+        case "\ufeff": {
+          templateIndex = -1;
+          escapeFlag = false;
+          break;
+        }
+        default:
+          break;
       }
     }
   }
