@@ -1,31 +1,46 @@
-const CURLY_BRACE_OPEN = "{".codePointAt(0);
-const CURLY_BRACE_CLOSE = "}".codePointAt(0);
-
-// based on '\s' regexp https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Cheatsheet
 /**
- * @type {Record<number,boolean>}
+ * based on '\s' regexp https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Cheatsheet
+ * @param {string} char
+ * @return {boolean}
  */
-const WHITE_SPACE_CHARS = {
-  32: true, 9: true, 10: true, 11: true, 12: true, 13: true, 0x00a0: true, 0x1680: true, 0x2000: true, 0x2001: true,
-  0x2002: true, 0x2003: true, 0x2004: true, 0x2005: true, 0x2006: true, 0x2007: true, 0x2008: true, 0x2009: true,
-  0x200a: true, 0x2028: true, 0x2029: true, 0x202f: true, 0x205f: true, 0x3000: true, 0xfeff: true,
-};
-
-/**
- * Checks if the given character code represents a white space character.
- *
- * @param {number} charCode - The character code to check.
- * @return {boolean} - `true` if the character code represents a white space character, otherwise `false`.
- */
-function is_white_space(charCode) {
-  return WHITE_SPACE_CHARS[charCode] ?? false;
+function is_white_space(char) {
+  switch (char) {
+    case "\u0020":
+    case "\u0009":
+    case "\u000a":
+    case "\u000b":
+    case "\u000c":
+    case "\u000d":
+    case "\u00a0":
+    case "\u1680":
+    case "\u2000":
+    case "\u2001":
+    case "\u2002":
+    case "\u2003":
+    case "\u2004":
+    case "\u2005":
+    case "\u2006":
+    case "\u2007":
+    case "\u2008":
+    case "\u2009":
+    case "\u200a":
+    case "\u2028":
+    case "\u2029":
+    case "\u202f":
+    case "\u205f":
+    case "\u3000":
+    case "\ufeff":
+      return true;
+    default:
+      return false;
+  }
 }
 
 /**
  * Replaces placeholders in the given text with values from a lookup map.
  *
  * @param {string} text - The text to format.
- * @param {Record<string, string>} argLookup - The lookup map containing placeholder-value pairs.
+ * @param {Record<string, any>} argLookup - The lookup map containing placeholder-value pairs.
  * @return {string} The formatted text with replaced placeholders.
  */
 function formatter(text, argLookup) {
@@ -36,13 +51,13 @@ function formatter(text, argLookup) {
   let escapeFlag = false;
 
   for (let i = 0; i < text.length; i++) {
-    let charCode = text.codePointAt(i);
+    let charCode = text[i];
 
-    if (templateIndex < 0 && charCode === CURLY_BRACE_OPEN) {
+    if (templateIndex < 0 && charCode === "{") {
       templateIndex = i;
 
     } else if (templateIndex > -1) {
-      if (charCode === CURLY_BRACE_CLOSE) {
+      if (charCode === "}") {
         if (templateIndex + 1 === i) {
           templateIndex = -1;
           continue;
@@ -54,14 +69,12 @@ function formatter(text, argLookup) {
 
         const canEscape = escapeFlag && text[i + 1] === "}";
         const key = text.slice(templateIndex + 1, i);
-        result += canEscape
-          ? key
-          : argLookup[key]?.toString() ?? "";
+        result += canEscape ? key : argLookup[key]?.toString() ?? "";
 
         escapeFlag = false;
         templateIndex = -1;
         sliceStart = i + 1;
-      } else if (charCode === CURLY_BRACE_OPEN) {
+      } else if (charCode === "{") {
         templateIndex = i;
         escapeFlag = true;
       } else if (charCode !== undefined && is_white_space(charCode)) {
