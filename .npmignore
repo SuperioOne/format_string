@@ -2,6 +2,7 @@ node_modules/
 .idea/
 .vscode/
 .git/
-tests
+tests/
+benchmarks/
 pnpm-lock.yaml
 tsconfig.json

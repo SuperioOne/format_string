@@ -5,7 +5,7 @@
   "scripts": {
     "check": "tsc --noEmit",
     "test": "vitest",
-    "bench": "vitest bench",
+    "bench": "pnpm -C ./benchmarks run bench",
     "build": "tsc --emitDeclarationOnly && rollup index.js --file index.require.js --format cjs"
   },
   "exports": {
@@ -21,6 +21,11 @@
   "keywords": [
     "utility-library",
     "format",
+    "formatter",
+    "print",
+    "utility",
+    "templating",
+    "str",
     "string"
   ],
   "author": {
