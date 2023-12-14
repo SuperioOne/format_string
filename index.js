@@ -5,22 +5,21 @@
  * @param {Record<string, any>} argLookup - The lookup map containing placeholder-value pairs.
  * @return {string} The formatted text with replaced placeholders.
  */
-function formatter(text, argLookup) {
-  // Concatenation yields faster results than string array and string.join("") for this context, possibly because of average format input isn't that big. 
+function fmt(text, argLookup) {
   let result = "";
   let templateIndex = -1;
   let sliceStart = 0;
   let escapeFlag = false;
 
   for (let i = 0; i < text.length; i++) {
-    const charCode = text[i];
+    const char = text[i];
 
-    if (templateIndex < 0 && charCode === "{") {
+    if (templateIndex < 0 && char === "{") {
       templateIndex = i;
 
     } else if (templateIndex > -1) {
 
-      switch (charCode) {
+      switch (char) {
         case "}": {
           if (templateIndex + 1 === i) {
             templateIndex = -1;
@@ -135,5 +134,5 @@ export default function format_string(format, args) {
     params = args ?? {};
   }
 
-  return formatter(format, params);
+  return fmt(format, params);
 }

@@ -1,9 +1,11 @@
 # Yet another format string function
 
-Fast, small and basic string templating function. This library is intended for use cases where the position of parameters 
+Fast, small and basic string templating function. This library is intended for use cases where the position of
+parameters
 in a format string is not known at compile-time.
 
-> **For situations with predictable/constant string formats, using JavaScript's built-in string templating is highly recommended.**
+> **For situations with predictable/constant string formats, using JavaScript's built-in string templating is highly
+recommended.**
 
 ## Getting Started
 
@@ -44,43 +46,46 @@ in a format string is not known at compile-time.
        // | a a 5 |
        ```
 
-### Format Syntax
+## Format Syntax
 
 Consider `arg="value"`
 
-| Format          | Output          | Description                                                              |
-|-----------------|-----------------|--------------------------------------------------------------------------|
-| `{arg}`         | `value`         | Replaces `{arg}` with the value of `arg`                                 |
-| `{arg }`        | `{arg }`        | Treats `{arg }` as a string as it doesn't follow correct formatting      |
-| `{ arg}`        | `{ arg}`        | Treats `{ arg}` as a string since it doesn't follow correct formatting   |
-| `{arg arg}`     | `{arg arg}`     | Treats `{arg arg}` as a string since it doesn't follow correct formatting   |
-| `{\narg}`       | `{\narg}`       | Treats `{\narg}` as a string since it doesn't follow correct formatting  |
-| `{}`            | `{}`            | Empty placeholders are ignored and treats as a string                    |
-| `{{arg}}`       | `{arg}`         | Escapes the placeholder syntax                                           |
-| `{{{{arg}}}}`   | `{{{arg}}}`     | Escapes the inner placeholder syntax, outputting `{{{arg}}}` as a string |
-| `{{{ {arg} }}}` | `{{{ value }}}` | Inserts `value` within triple curly braces, outputting `{{{ value }}}`   |
+| Format          | Output          | Description                                                               |
+|-----------------|-----------------|---------------------------------------------------------------------------|
+| `{arg}`         | `value`         | Replaces `{arg}` with the value of `arg`                                  |
+| `{arg }`        | `{arg }`        | Treats `{arg }` as a string as it doesn't follow correct formatting       |
+| `{ arg}`        | `{ arg}`        | Treats `{ arg}` as a string since it doesn't follow correct formatting    |
+| `{arg arg}`     | `{arg arg}`     | Treats `{arg arg}` as a string since it doesn't follow correct formatting |
+| `{\narg}`       | `{\narg}`       | Treats `{\narg}` as a string since it doesn't follow correct formatting   |
+| `{}`            | `{}`            | Empty placeholders are ignored and treats as a string                     |
+| `{{arg}}`       | `{arg}`         | Escapes the placeholder syntax                                            |
+| `{{{{arg}}}}`   | `{{{arg}}}`     | Escapes the inner placeholder syntax, outputting `{{{arg}}}` as a string  |
+| `{{{ {arg} }}}` | `{{{ value }}}` | Inserts `value` within triple curly braces, outputting `{{{ value }}}`    |
 
-Please avoid using whitespace characters in placeholder names as they will be interpreted as strings, not placeholders. 
+Avoid using space, feed, tab and separator characters in placeholder names as they will be interpreted as strings, not
+placeholders.
 
-| Whitespace Character | Description                                                                                                                                            | 
-|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `' '`                | Space                                                                                                                                                  |
-| `\f`                | Form Feed                                                                                                                                              |
-| `\n`                | Line Feed (New Line)                                                                                                                                   |
-| `\r`                | Carriage Return                                                                                                                                        |
-| `\t`                | Horizontal Tab                                                                                                                                         |
-| `\v`                | Vertical Tab                                                                                                                                           |
-| `\u00a0`            | No-Break Space                                                                                                                                         |
-| `\u1680`            | Ogham Space Mark                                                                                                                                       |
-| `\u2000` to `\u200a` | En Quad, Em Quad, En Space, Em Space, Three-Per-Em Space, Four-Per-Em Space, Six-Per-Em Space, Figure Space, Punctuation Space, Thin Space, Hair Space |
-| `\u2028`            | Line Separator                                                                                                                                         |
-| `\u2029`            | Paragraph Separator                                                                                                                                    |
-| `\u202f`            | Narrow No-Break Space                                                                                                                                  |
-| `\u205f`            | Medium Mathematical Space                                                                                                                              |
-| `\u3000`            | Ideographic Space                                                                                                                                      |
-| `\ufeff`            | Zero Width No-Break Space                                                                                                                              |
+List of invalid placeholder characters;
 
-### Building the Project
+- `{`
+- `}`
+- `' '`
+- `\f`
+- `\n`
+- `\r`
+- `\t`
+- `\v`
+- `\u00a0`
+- `\u1680`
+- `\u2000` to `\u200a`
+- `\u2028`
+- `\u2029`
+- `\u202f`
+- `\u205f`
+- `\u3000`
+- `\ufeff`
+
+## Building the Project
 
 Build step only generates type decleration and CommonJS version.
 
@@ -94,6 +99,7 @@ npm run build
 Pull requests are welcome, especially ideas for time and memory allocation reduction.
 
 ## Benchmarks
+
 Tested against some popular packages with four parameters and single escape.
 
 > Keep in mind some of the listed libraries provides more features like number formatting, padding etc.
@@ -106,32 +112,32 @@ node      : v20.7.0
 vitest    : v1.0.4
 tinybench : v2.5.1
 
-name                                                        hz     min     max    mean     p75     p99    p995    p999     rme  samples
-· @superior-one/format_string with positional args  2,667,454.58  0.0003  0.8361  0.0004  0.0004  0.0004  0.0006  0.0016  ±0.30%  2667455   fastest
-· @superior-one/format_string with named args       2,202,596.97  0.0004  0.6137  0.0005  0.0005  0.0005  0.0005  0.0009  ±0.21%  2202597  
-· string-template with named args                     866,472.63  0.0011  0.2794  0.0012  0.0012  0.0012  0.0013  0.0018  ±0.16%   866473  
-· string-template with positional args                993,227.21  0.0009  1.0439  0.0010  0.0010  0.0011  0.0012  0.0018  ±0.24%   993228  
-· @stdlib/string-format with positional args        1,740,323.68  0.0005  0.1582  0.0006  0.0006  0.0007  0.0008  0.0010  ±0.18%  1740324  
-· string-format with positional args                  534,816.99  0.0017  0.2324  0.0019  0.0018  0.0037  0.0038  0.0051  ±0.22%   534817  
-· string-format with named args                       370,986.79  0.0025  0.1357  0.0027  0.0027  0.0029  0.0030  0.0061  ±0.15%   370987   slowest
-· pupa with positional args                           512,409.23  0.0018  0.1490  0.0020  0.0019  0.0021  0.0022  0.0039  ±0.14%   512410  
-· pupa with named args                                455,322.46  0.0021  0.1525  0.0022  0.0022  0.0023  0.0024  0.0045  ±0.14%   455323  
-· string replaceAll positional args function        1,604,997.66  0.0006  0.1082  0.0006  0.0006  0.0007  0.0008  0.0012  ±0.12%  1604998  
-· string replaceAll named args function             1,709,737.81  0.0005  0.7950  0.0006  0.0006  0.0006  0.0008  0.0012  ±0.17%  1709739  
+  name                                                        hz     min     max    mean     p75     p99    p995    p999     rme  samples
+· @superior-one/format_string with positional args  2,693,972.54  0.0003  0.9917  0.0004  0.0004  0.0004  0.0006  0.0016  ±0.31%  2693973
+· @superior-one/format_string with named args       2,260,906.19  0.0004  0.5987  0.0004  0.0004  0.0009  0.0009  0.0010  ±0.20%  2260907  
+· string-template with named args                     858,246.92  0.0011  0.2475  0.0012  0.0011  0.0021  0.0022  0.0024  ±0.16%   858247  
+· string-template with positional args              1,016,520.83  0.0009  0.1932  0.0010  0.0010  0.0011  0.0012  0.0019  ±0.11%  1016521  
+· @stdlib/string-format with positional args        1,771,259.33  0.0005  0.2183  0.0006  0.0006  0.0007  0.0008  0.0011  ±0.19%  1771260  
+· string-format with positional args                  548,726.51  0.0017  0.2494  0.0018  0.0018  0.0021  0.0029  0.0036  ±0.22%   548727  
+· string-format with named args                       377,298.69  0.0025  0.1892  0.0027  0.0026  0.0029  0.0030  0.0061  ±0.16%   377299 
+· pupa with positional args                           522,948.55  0.0018  0.1503  0.0019  0.0019  0.0021  0.0035  0.0041  ±0.15%   522949  
+· pupa with named args                                455,937.12  0.0021  0.9894  0.0022  0.0022  0.0038  0.0043  0.0051  ±0.23%   455938  
+· string replaceAll positional args                 1,619,706.37  0.0006  0.1692  0.0006  0.0006  0.0007  0.0008  0.0011  ±0.13%  1619707  
+· string replaceAll named args                      1,705,262.53  0.0005  0.2296  0.0006  0.0006  0.0007  0.0011  0.0012  ±0.07%  1705263  
 
 BENCH  Summary
 
-@superior-one/format_string with positional args - index.bench.js >
-1.21x faster than @superior-one/format_string with named args
-1.53x faster than @stdlib/string-format with positional args
-1.56x faster than string replaceAll named args function
-1.66x faster than string replaceAll array args function
-2.69x faster than string-template with positional args
-3.08x faster than string-template with named args
-4.99x faster than string-format with positional args
-5.21x faster than pupa with positional args
-5.86x faster than pupa with named args
-7.19x faster than string-format with named args
+@superior-one/format_string with positional args - index.bench.js > 
+ 1.19x faster than @superior-one/format_string with named args
+ 1.52x faster than @stdlib/string-format with positional args
+ 1.58x faster than string replaceAll named args
+ 1.66x faster than string replaceAll positional args
+ 2.65x faster than string-template with positional args
+ 3.14x faster than string-template with named args
+ 4.91x faster than string-format with positional args
+ 5.15x faster than pupa with positional args
+ 5.91x faster than pupa with named args
+ 7.14x faster than string-format with named args
 ```
 
 ## License

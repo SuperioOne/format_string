@@ -1,6 +1,6 @@
 {
   "name": "@superior-one/format_string",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Replaces placeholders in a format string with provided named or positional arguments.",
   "scripts": {
     "check": "tsc --noEmit",
@@ -38,7 +38,7 @@
   },
   "homepage": "https://github.com/SuperioOne/format_string",
   "devDependencies": {
-    "rollup": "^4.7.0",
+    "rollup": "^4.9.0",
     "typescript": "^5.3.3",
     "vitest": "^1.0.4"
   }

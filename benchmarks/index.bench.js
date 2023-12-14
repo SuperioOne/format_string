@@ -60,7 +60,7 @@ bench('pupa with named args', () => {
 }, {time: 1000, warmupIterations: 10, iterations: 100})
 
 // replaceAll does not escape but added anyway.
-bench('string replaceAll positional args function', () => {
+bench('string replaceAll positional args', () => {
   let result = "{0}{1}{2}{3} {{3}}";
 
   for (let i = 0; i < positionalArgs.length; i++) {
@@ -69,7 +69,7 @@ bench('string replaceAll positional args function', () => {
   return result;
 }, {time: 1000, warmupIterations: 10, iterations: 100})
 
-bench('string replaceAll named args function', () => {
+bench('string replaceAll named args', () => {
   let result = "{alpha}{beta}{charlie}{delta} {{delta}}";
   for (const key in namedArgs) {
     result = result.replaceAll(`{${key}}`, namedArgs[key]);
