@@ -1,5 +1,5 @@
 import {expect, test, describe} from 'vitest';
-import format_string from '../index';
+import format_string from '../src/index';
 
 test('should process array parameters properly', () => {
   const result = format_string('Hello {0}, you are {1} years old', ['John', 25]);
@@ -103,7 +103,7 @@ test('should handle Unicode white space properly', () => {
 });
 
 test('format level: gibberish', () => {
- 
+
   let result = format_string('{name}{{ name}} { {{{ a{{name}{😕} d}}}}} } {{{{age}}}} {age age} {{{age}{{a}}\{\}{\u4356}', {
     "name": 'Gonarch',
     age: 25,

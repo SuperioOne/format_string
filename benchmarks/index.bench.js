@@ -3,7 +3,7 @@ import string_template from "string-template";
 import string_format from "string-format";
 import stdlib_string_format from "@stdlib/string-format";
 import pupa from 'pupa';
-import format_string from "../index";
+import format_string from "../src/index";
 
 const positionalArgs = [0, 1, 2, 3];
 const namedArgs = {

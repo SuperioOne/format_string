@@ -12,13 +12,13 @@
     "alwaysStrict": true,
     "skipLibCheck": true,
     "declaration": true,
+    "outDir": "./dist"
   },
   "include": [
-    "index.js"
+    "src/**/*"
   ],
   "exclude": [
     "node_modules/**/*",
-    "index.d.ts",
-    "index.cjs.js",
+    "dist/**/*"
   ]
 }

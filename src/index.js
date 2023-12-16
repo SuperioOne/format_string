@@ -93,7 +93,7 @@ function fmt(text, argLookup) {
  * @param {Record<string, any>} namedArgs The object containing named arguments.
  * @returns {string} The formatted string.
  * @example
- * import format_string from "format_string";
+ * import format_string from "@superior-one/format_string";
  * const formatStringFromSomewhere = "{date} : {log}";
  *
  * format_string(formatStringFromSomewhere, { date: new Date().toISOString(), log: "My log"});
@@ -106,7 +106,7 @@ function fmt(text, argLookup) {
  * @param {any[]} args The arguments to replace the placeholders.
  * @return {string} The formatted string.
  * @example
- * import format_string from "format_string";
+ * import format_string from "@superior-one/format_string";
  * const formatStringFromSomewhere = "{0}x{0} = {1}";
  *
  * format_string(formatStringFromSomewhere,[2,4]);
